@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["addagger@gmail.com"]
   gem.homepage      = %q{http://vkvon.ru/projects/gaigo}
   gem.description   = %q{76 world's languages and codes}
-  gem.summary       = %q{World's languages/countries, locale attribute for Rails' models}
+  gem.summary       = %q{World's languages/countries, localization for Rails' models}
 
   gem.rubyforge_project = "gaigo"
 

@@ -20,5 +20,9 @@ module Gaigo
       LANGS.get(locale)
     end
 
+    def lang_method
+      lang.try(:to_method)
+    end
+
   end
 end

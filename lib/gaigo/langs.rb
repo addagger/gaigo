@@ -9,7 +9,7 @@ module Gaigo
       def initialize(en, code, native)
         @en = en
         @code = code
-        @native = native
+        @native = native.encode('UTF-8')
         freeze
       end
       def to_s
@@ -19,7 +19,7 @@ module Gaigo
         en.downcase.gsub(/\W|\d/,"_")
       end
     end
-    
+
     def add_lang(attributes)
       self << Lang.new(*attributes)
     end
@@ -27,11 +27,27 @@ module Gaigo
     def get(code)
       self.find {|i| i.code == code.to_s}
     end
+
+    def get_by_method(method)
+      self.find {|i| i.to_method == method.to_s}
+    end
+
+    def get_by_native(name)
+      self.find {|i| i.native.mb_chars.downcase.to_s == name.encode('UTF-8').mb_chars.downcase.to_s}
+    end
+
+    def get_by_en(name)
+      self.find {|i| i.en.downcase == name.downcase.to_s}
+    end
     
+    def get_by_name(name)
+      get_by_native(name)||get_by_english(name)
+    end
+
     def codes
       self.map {|i| i.code}
     end
-    
+
     def en
       self.map {|i| i.en}
     end
@@ -39,7 +55,19 @@ module Gaigo
     def native
       self.map {|i| i.native}
     end
-    
+
+    def validate_codes(*args)
+      options = args.extract_options!
+      codes = self.codes
+      args.map(&:to_s).select do |code|
+        if code.to_s.in?(codes)
+          true
+        else
+          options[:raise] == true ? raise(Exception, "Invalid code: :#{code}") : false
+        end
+      end
+    end    
+
     def copy(*locale_codes)
       if locale_codes.any?
         Langs.new.tap do |new_langs|

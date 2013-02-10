@@ -20,7 +20,7 @@ module Gaigo
 
         if block_given?   #
           yield defaults  #
-        end                #  
+        end               #  
 
         defaults << options.delete(:default) if options[:default]
 

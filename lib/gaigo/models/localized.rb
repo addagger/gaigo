@@ -13,7 +13,9 @@ module Gaigo
     end
 
     def locale=(value)
-      super(check_locale_code(value))
+      code = check_locale_code(value)
+      self._locales.validate_codes(code, :raise => true)
+      super(code)
     end
     
     def lang

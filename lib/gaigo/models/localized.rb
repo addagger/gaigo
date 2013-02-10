@@ -19,7 +19,7 @@ module Gaigo
     end
     
     def lang
-      LANGS.get(locale)
+      self._locales.get(locale)
     end
 
     def lang_method
